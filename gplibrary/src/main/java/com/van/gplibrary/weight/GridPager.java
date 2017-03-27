@@ -1,6 +1,7 @@
 package com.van.gplibrary.weight;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
@@ -12,10 +13,8 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 
+import com.van.gplibrary.R;
 import com.van.gplibrary.utils.DensityUtils;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 使ViewPager透明，对外只用GridView的数据
@@ -42,14 +41,52 @@ public class GridPager extends ViewPager {
     //总页数
     private int mPageCount;
     private PagerAdapter mPageAdapter;
-
     //点击监听
     private OnItemListener mItemClickListener;
+    private AbsListView.LayoutParams mParams;
 
     public GridPager(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init(context, attrs);
     }
 
+
+    /**
+     * 初始化
+     */
+    private void init(Context context, AttributeSet attrs) {
+        mParams = new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, AbsListView
+                .LayoutParams.WRAP_CONTENT);
+        //如果attrs不为空，就从xml布局文件中获取自定义attrs参数
+        if (null != attrs) {
+            TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.GridPager);
+            mPageSize = ta.getInteger(R.styleable.GridPager_page_size, 4);
+            mNumColumn = ta.getInteger(R.styleable.GridPager_num_columns, 4);
+            mVerticalSpacing = (int) ta.getDimension(R.styleable
+                    .GridPager_vertical_spacing, 0.5f);
+            mHorizonticalSpacing = (int) ta.getDimension(R.styleable
+                    .GridPager_horizontal_spacing, 0.5f);
+            scrollBarEnable = ta.getBoolean(R.styleable.GridPager_scroll_bar_enable,
+                    false);
+            ta.recycle();
+        }
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        int height = 0;
+        //下面遍历所有child的高度
+        for (int i = 0; i < getChildCount(); i++) {
+            View child = getChildAt(i);
+            child.measure(widthMeasureSpec,
+                    MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
+            int h = child.getMeasuredHeight();
+            if (h > height) //采用最大的view的高度。
+                height = h;
+        }
+        heightMeasureSpec = MeasureSpec.makeMeasureSpec(height + getPaddingBottom() + getPaddingTop(), MeasureSpec.EXACTLY);
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    }
 
     public void setmItemCount(int mItemCount) {
         this.mItemCount = mItemCount;
@@ -131,10 +168,8 @@ public class GridPager extends ViewPager {
 
         @Override
         public Object instantiateItem(ViewGroup container, final int pageIndex) {
-            GridView gv = new GridView(getContext());
-            AbsListView.LayoutParams params = new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, AbsListView
-                    .LayoutParams.WRAP_CONTENT);
-            gv.setLayoutParams(params);
+            MGridView gv = new MGridView(getContext());
+            gv.setLayoutParams(mParams);
             gv.setNumColumns(mNumColumn);
             gv.setHorizontalSpacing(DensityUtils.dp2px(getContext(), mHorizonticalSpacing));
             gv.setVerticalSpacing(DensityUtils.dp2px(getContext(), mVerticalSpacing));
@@ -156,9 +191,8 @@ public class GridPager extends ViewPager {
         }
 
         /**
-         *
          * @param gv
-         * @param pageIndex  ViewPager当前页
+         * @param pageIndex ViewPager当前页
          */
         private void setAdapter(GridView gv, int pageIndex) {
             if (gv.getAdapter() instanceof BaseAdapter) {
@@ -188,13 +222,16 @@ public class GridPager extends ViewPager {
      * 一页GridView的Adapter
      */
     private class GVAdapter<T> extends BaseAdapter {
+
         private IGridView<T> mAdapter;
         private int mPageIndex;
 
         public GVAdapter(IGridView<T> mAdapter, int pageIndex) {
+
             this.mAdapter = mAdapter;
             mPageIndex = pageIndex;
         }
+
 
         @Override
         public int getCount() {
@@ -229,6 +266,7 @@ public class GridPager extends ViewPager {
 
     /**
      * 联通单个页面的GVAdapter及所有数据的桥梁
+     *
      * @param <T>
      */
     public interface IGridView<T> {
