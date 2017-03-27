@@ -1,6 +1,7 @@
 # GridPager 动态设置行列且支持滑动的网格控件
+  添加Pager页下标，支持下标自定义颜色(默认为灰色、红色)
 
-##使用方法
+## 使用方法
 * 1、项目build.gradle文件中添加远程库https://jitpack.io
 ```
 allprojects {
@@ -13,7 +14,7 @@ allprojects {
 ```
 * 2、在Module的build.gradle文件中添加依赖
 ```
- compile 'com.github.vanzh:GridPager:latestVersion'
+ compile 'com.github.vanzh:GridPager:1.0.0'
 ```
 * 3、重写Adapter
 ```
@@ -53,11 +54,13 @@ allprojects {
 ```
 * 4、给GridPager设置各项属性及Adapter
 ```
- mGridPager = (GridPager) findViewById(R.id.gp_data);
-        mGridPager.setmNumColumn(4);
-        mGridPager.setmPageSize(8);
-        mGridPager.setmVerticalSpacing(10);
-        mGridPager.setmHorizonticalSpacing(10);
+ mGridPager = (GridPager) findViewById(R.id.gdp_data);
         MyAdapter adapter = new MyAdapter(this, data, R.layout.adapter_column_item);
         mGridPager.setAdapter(adapter);
+```
+
+* 5.颜色设置
+```
+   mGridPager.setSelectedColor(ContextCompat.getColor(getApplicationContext(), android.R.color.holo_green_dark))
+                .setUnSelectedColor(ContextCompat.getColor(getApplicationContext(), android.R.color.holo_green_light));
 ```

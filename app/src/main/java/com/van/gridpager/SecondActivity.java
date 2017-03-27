@@ -2,6 +2,7 @@ package com.van.gridpager;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,25 +11,23 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.van.gplibrary.adapter.GridViewAdapter;
-import com.van.gplibrary.weight.GridPager;
+import com.van.gplibrary.weight.GridDotPager;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SecondActivity extends AppCompatActivity {
     List<ColumnItem> data;
-    private GridPager mGridPager;
+    private GridDotPager mGridPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
         initData();
-        mGridPager = (GridPager) findViewById(R.id.gp_data);
-//        mGridPager.setmNumColumn(4);
-//        mGridPager.setmPageSize(8);
-//        mGridPager.setmVerticalSpacing(10);
-//        mGridPager.setmHorizonticalSpacing(10);
+        mGridPager = (GridDotPager) findViewById(R.id.gdp_data);
+        mGridPager.setSelectedColor(ContextCompat.getColor(getApplicationContext(), android.R.color.holo_green_dark))
+                .setUnSelectedColor(ContextCompat.getColor(getApplicationContext(), android.R.color.holo_green_light));
         MyAdapter adapter = new MyAdapter(this, data, R.layout.adapter_column_item);
         mGridPager.setAdapter(adapter);
     }
@@ -64,7 +63,7 @@ public class SecondActivity extends AppCompatActivity {
         }
 
         @Override
-        public View getView( int position, View convertView, ViewGroup parent) {
+        public View getView(int position, View convertView, ViewGroup parent) {
             ViewHolder viewHolder = new ViewHolder();
             if (convertView == null) {
                 convertView = LayoutInflater.from(mContext).inflate(resId, null);

@@ -6,13 +6,23 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.van.gplibrary.weight.GridPager
-        android:id="@+id/gp_data"
+    <!--<com.van.gplibrary.weight.GridPager-->
+    <!--android:id="@+id/gp_data"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--app:horizontal_spacing="1dp"-->
+    <!--app:num_columns="4"-->
+    <!--app:page_size="8"-->
+    <!--app:scroll_bar_enable="false"-->
+    <!--app:vertical_spacing="1dp" />  -->
+    <com.van.gplibrary.weight.GridDotPager
+        android:id="@+id/gdp_data"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:horizontal_spacing="10dp"
+        app:horizontal_spacing="1dp"
+        android:background="#ffffff"
         app:num_columns="4"
         app:page_size="8"
         app:scroll_bar_enable="false"
-        app:vertical_spacing="10dp" />
+        app:vertical_spacing="1dp" />
 </LinearLayout>
