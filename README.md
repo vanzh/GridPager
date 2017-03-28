@@ -14,7 +14,7 @@ allprojects {
 ```
 * 2、在Module的build.gradle文件中添加依赖
 ```
- compile 'com.github.vanzh:GridPager:1.0.0'
+ compile 'com.github.vanzh:GridPager:1.0.1'
 ```
 * 3、重写Adapter
 ```
