@@ -1,6 +1,6 @@
 # GridPager 动态设置行列且支持滑动的网格控件
   添加Pager页下标，支持下标自定义颜色(默认为灰色、红色)
-
+  效果图：![图片](https://raw.githubusercontent.com/vanzh/GridPager/master/GIF.gif)
 ## 使用方法
 * 1、项目build.gradle文件中添加远程库https://jitpack.io
 ```
