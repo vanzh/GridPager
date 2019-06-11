@@ -32,7 +32,6 @@ ext {
     buildToolsVersion = "28.0.3"
     minSdkVersion = 17
     targetSdkVersion = 28
-    ':${parent.supportVersion}'
     libSupportDesign = "com.android.support:design:${supportVersion}"
     libSupportAppcompatV4 = "com.android.support:support-v4:${supportVersion}"
     libSupportAppcompatV7 = "com.android.support:appcompat-v7:${supportVersion}"
