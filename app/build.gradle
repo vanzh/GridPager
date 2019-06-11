@@ -1,12 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.0"
+    compileSdkVersion parent.ext.compileSdkVersion
+    buildToolsVersion parent.ext.buildToolsVersion
+
     defaultConfig {
         applicationId "com.van.gridpager"
-        minSdkVersion 14
-        targetSdkVersion 24
+        minSdkVersion parent.ext.minSdkVersion
+        targetSdkVersion parent.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -20,11 +21,11 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
 
-    compile 'com.android.support:appcompat-v7:24.2.1'
+    implementation parent.ext.libSupportAppcompatV7
 
-    compile 'com.github.bumptech.glide:glide:3.7.0'
-    compile 'com.android.support:support-v4:24.2.1'
-    compile project(':gplibrary')
+    implementation 'com.github.bumptech.glide:glide:3.7.0'
+    implementation parent.ext.libSupportAppcompatV4
+    implementation project(':gplibrary')
 }
